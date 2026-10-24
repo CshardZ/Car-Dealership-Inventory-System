@@ -1,12 +1,15 @@
 import express from "express";
 import vehicleRoutes from "./routes/vehicle.routes";
 import authRoutes from "./routes/auth.routes";
-
-
-
+import cors from "cors";
 
 const app = express();
 
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 
 app.use(express.json());
 
