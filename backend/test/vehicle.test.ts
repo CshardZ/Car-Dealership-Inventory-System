@@ -2,13 +2,35 @@ import request from "supertest";
 import app from "../src/app";
 
 
-
 describe("Vehicle API", () => {
   let vehicleId: string;
+  let token: string;
+
+  beforeAll(async () => {
+    const user = {
+      name: "Vehicle Test User",
+      email: `vehicle-test-${Date.now()}@example.com`,
+      password: "Password123",
+    };
+
+    await request(app)
+      .post("/api/auth/register")
+      .send(user);
+
+    const loginResponse = await request(app)
+      .post("/api/auth/login")
+      .send({
+        email: user.email,
+        password: user.password,
+      });
+
+    token = loginResponse.body.token;
+  });
 
   it("should create a vehicle", async () => {
     const response = await request(app)
       .post("/api/vehicles")
+      .set("Authorization", `Bearer ${token}`)
       .send({
         make: "Toyota",
         model: "Camry",
@@ -27,7 +49,8 @@ describe("Vehicle API", () => {
 
   it("should get all vehicles", async () => {
     const response = await request(app)
-      .get("/api/vehicles");
+      .get("/api/vehicles")
+      .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(200);
     expect(Array.isArray(response.body)).toBe(true);
@@ -36,6 +59,7 @@ describe("Vehicle API", () => {
   it("should search vehicles by make", async () => {
     const response = await request(app)
       .get("/api/vehicles/search")
+      .set("Authorization", `Bearer ${token}`)
       .query({ make: "Toyota" });
 
     expect(response.status).toBe(200);
@@ -45,6 +69,7 @@ describe("Vehicle API", () => {
   it("should update a vehicle", async () => {
     const response = await request(app)
       .put(`/api/vehicles/${vehicleId}`)
+      .set("Authorization", `Bearer ${token}`)
       .send({
         price: 27000,
       });
@@ -55,7 +80,8 @@ describe("Vehicle API", () => {
 
   it("should purchase a vehicle", async () => {
     const response = await request(app)
-      .post(`/api/vehicles/${vehicleId}/purchase`);
+      .post(`/api/vehicles/${vehicleId}/purchase`)
+      .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(200);
     expect(response.body.vehicle.quantity).toBe(4);
@@ -64,6 +90,7 @@ describe("Vehicle API", () => {
   it("should restock a vehicle", async () => {
     const response = await request(app)
       .post(`/api/vehicles/${vehicleId}/restock`)
+      .set("Authorization", `Bearer ${token}`)
       .send({
         quantity: 3,
       });
@@ -74,7 +101,8 @@ describe("Vehicle API", () => {
 
   it("should delete a vehicle", async () => {
     const response = await request(app)
-      .delete(`/api/vehicles/${vehicleId}`);
+      .delete(`/api/vehicles/${vehicleId}`)
+      .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(200);
     expect(response.body.message).toBe(
