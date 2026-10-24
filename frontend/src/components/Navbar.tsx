@@ -1,4 +1,6 @@
 import { Car, LogIn, UserPlus } from "lucide-react";
+import { Link } from "react-router-dom";
+
 
 export default function Navbar() {
   return (
@@ -17,12 +19,12 @@ export default function Navbar() {
 
         {/* Navigation */}
         <div className="hidden items-center gap-8 md:flex">
-          <a
-            href="#vehicles"
+          <Link
+            to="#vehicles"
             className="text-sm text-zinc-400 transition hover:text-white"
           >
             Vehicles
-          </a>
+          </Link>
 
           <a
             href="#about"
@@ -34,15 +36,21 @@ export default function Navbar() {
 
         {/* Actions */}
         <div className="flex items-center gap-3">
-          <button className="hidden items-center gap-2 rounded-lg px-4 py-2 text-sm text-zinc-300 transition hover:bg-zinc-900 hover:text-white sm:flex">
-            <LogIn size={16} />
-            Login
-          </button>
+					<Link
+						to="/login"
+						className="hidden items-center gap-2 rounded-lg px-4 py-2 text-sm text-zinc-300 transition hover:bg-zinc-900 hover:text-white sm:flex"
+					>
+						<LogIn size={16} />
+						Login
+					</Link>
 
-          <button className="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-black transition hover:bg-zinc-200">
-            <UserPlus size={16} />
-            Register
-          </button>
+						<Link
+							to="/register"
+							className="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-black transition hover:bg-zinc-200"
+						>
+							<UserPlus size={16} />
+							Register
+					</Link>
         </div>
       </div>
     </nav>

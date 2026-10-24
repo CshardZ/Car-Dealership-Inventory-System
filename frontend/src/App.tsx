@@ -1,14 +1,29 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import VehicleGrid from "./components/VehicleGrid";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
-function App() {
+function Home() {
   return (
-    <div className="min-h-screen bg-zinc-950 text-white">
+    <>
       <Navbar />
       <Hero />
       <VehicleGrid />
-    </div>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
