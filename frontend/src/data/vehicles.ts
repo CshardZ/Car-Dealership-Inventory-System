@@ -16,7 +16,7 @@ export const vehicles: Vehicle[] = [
     model: "X5",
     category: "SUV",
     price: 9800000,
-    quantity: 3,
+    quantity: 3200,
   },
   {
     id: "3",
