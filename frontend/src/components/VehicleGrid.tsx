@@ -14,7 +14,9 @@ export default function VehicleGrid() {
     const fetchVehicles = async () => {
       try {
         setLoading(true);
+
         const data = await getVehicles();
+
         setVehicles(data.vehicles ?? data);
       } catch (err) {
         console.error("Failed to fetch vehicles:", err);
@@ -58,7 +60,7 @@ export default function VehicleGrid() {
         </div>
 
         {/* Search & Filters */}
-        <SearchBar />
+        <SearchBar onResults={setVehicles} />
 
         {/* Results */}
         <div className="mb-5 flex items-center justify-between">

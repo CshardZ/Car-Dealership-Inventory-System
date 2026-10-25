@@ -17,7 +17,7 @@ const router = Router();
 
 router.post("/", createVehicle);
 router.get("/", getVehicles);
-router.get("/search", authenticateToken, searchVehicles);
+router.get("/search", searchVehicles);
 
 router.put("/:id", authenticateToken, updateVehicle);
 

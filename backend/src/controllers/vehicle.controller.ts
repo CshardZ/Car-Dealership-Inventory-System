@@ -33,18 +33,35 @@ export const searchVehicles = async (req: Request, res: Response) => {
 
     const filter: Record<string, any> = {};
 
-    if (make) {
-      filter.make = { $regex: make, $options: "i" };
+    // Search make OR model
+    if (make || model) {
+      const searchTerm = String(make || model);
+
+      filter.$or = [
+        {
+          make: {
+            $regex: searchTerm,
+            $options: "i",
+          },
+        },
+        {
+          model: {
+            $regex: searchTerm,
+            $options: "i",
+          },
+        },
+      ];
     }
 
-    if (model) {
-      filter.model = { $regex: model, $options: "i" };
-    }
-
+    // Category
     if (category) {
-      filter.category = { $regex: category, $options: "i" };
+      filter.category = {
+        $regex: String(category),
+        $options: "i",
+      };
     }
 
+    // Price range
     if (minPrice || maxPrice) {
       filter.price = {};
 
@@ -61,6 +78,8 @@ export const searchVehicles = async (req: Request, res: Response) => {
 
     res.status(200).json(vehicles);
   } catch (error) {
+    console.error("Search vehicles error:", error);
+
     res.status(400).json({
       message: "Invalid search parameters",
     });
