@@ -6,6 +6,7 @@ import VehicleGrid from "./components/VehicleGrid";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Admin from "./pages/Admin";
+import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 
 function Home() {
   const isLoggedIn = !!localStorage.getItem("token");
@@ -46,9 +47,19 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+
         <Route path="/login" element={<Login />} />
+
         <Route path="/register" element={<Register />} />
-        <Route path="/admin" element={<Admin />} />
+
+        <Route
+          path="/admin"
+          element={
+            <ProtectedAdminRoute>
+              <Admin />
+            </ProtectedAdminRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

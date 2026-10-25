@@ -16,17 +16,22 @@ export default function Login() {
 
     try {
       setLoading(true);
-      setError("");
 
-      await login(email, password);
+      const data = await login(email, password);
 
-      navigate("/");
+      if (data.user?.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } catch (error: any) {
       console.error("Login failed:", error);
 
-      setError(
-        error.response?.data?.message || "Invalid email or password."
-      );
+      const message =
+        error.response?.data?.message ||
+        "Invalid email or password.";
+
+      setError(message);
     } finally {
       setLoading(false);
     }
