@@ -2,7 +2,7 @@ import { ArrowRight, ShieldCheck } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-zinc-800 bg-zinc-950">
+    <section className="relative flex min-h-[calc(100vh-4rem)] items-center overflow-hidden border-b border-zinc-800 bg-zinc-950">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.08),_transparent_40%)]" />
 
       <div className="relative mx-auto flex max-w-7xl justify-center px-6 py-20 text-center lg:py-28">
@@ -33,9 +33,9 @@ export default function Hero() {
               <ArrowRight size={17} />
             </a>
 
-            <button className="rounded-lg border border-zinc-700 px-5 py-3 text-sm font-medium text-zinc-300 transition hover:border-zinc-500 hover:text-white">
+            {/* <button className="rounded-lg border border-zinc-700 px-5 py-3 text-sm font-medium text-zinc-300 transition hover:border-zinc-500 hover:text-white">
               Learn More
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

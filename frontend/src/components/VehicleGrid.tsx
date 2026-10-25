@@ -38,14 +38,10 @@ export default function VehicleGrid() {
         {/* Header */}
         <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
-            <div className="mb-3 flex items-center gap-2 text-xs font-medium tracking-widest text-zinc-500">
+            <div className="mb-3 flex items-center gap-2 text-xs font-bold tracking-widest">
               <PackageOpen size={15} />
               INVENTORY
             </div>
-
-            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              Find your next vehicle
-            </h2>
 
             <p className="mt-3 max-w-xl text-sm leading-6 text-zinc-500">
               Browse our collection of quality vehicles and find something

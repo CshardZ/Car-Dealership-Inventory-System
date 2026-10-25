@@ -25,23 +25,6 @@ export default function Navbar() {
           </span>
         </div>
 
-        {/* Navigation */}
-        <div className="hidden items-center gap-8 md:flex">
-          <Link
-            to="/#vehicles"
-            className="text-sm text-zinc-400 transition hover:text-white"
-          >
-            Vehicles
-          </Link>
-
-          <a
-            href="#about"
-            className="text-sm text-zinc-400 transition hover:text-white"
-          >
-            About
-          </a>
-        </div>
-
         {/* Actions */}
         <div className="flex items-center gap-3">
           {!isLoggedIn ? (

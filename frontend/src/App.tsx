@@ -19,7 +19,7 @@ function Home() {
       {isLoggedIn ? (
         <VehicleGrid />
       ) : (
-        <section className="border-b border-zinc-800 bg-zinc-950 px-6 py-20">
+        <section id="vehicles" className="relative flex min-h-[calc(100vh-4rem)] items-center overflow-hidden border-b border-zinc-800 bg-zinc-950">
           <div className="mx-auto max-w-7xl text-center">
             <h2 className="text-2xl font-bold text-white">
               Login to view our inventory

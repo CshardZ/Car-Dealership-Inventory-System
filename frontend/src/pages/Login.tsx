@@ -93,13 +93,6 @@ export default function Login() {
                 >
                   Password
                 </label>
-
-                <button
-                  type="button"
-                  className="text-xs text-zinc-500 transition hover:text-white"
-                >
-                  Forgot password?
-                </button>
               </div>
 
               <input

@@ -1,4 +1,4 @@
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, CarFront } from "lucide-react";
 import { useState } from "react";
 import type { Vehicle } from "../types/vehicle";
 import { purchaseVehicle } from "../api/api";
@@ -45,11 +45,13 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
       <article className="group overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/50 transition-all duration-300 hover:-translate-y-1 hover:border-zinc-700 hover:shadow-2xl hover:shadow-black/20">
         {/* Image */}
         <div className="relative h-56 overflow-hidden bg-zinc-900">
-          <img
-            src="https://placehold.co/600x400/black/white"
-            alt={`${vehicle.make} ${vehicle.model}`}
-            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-          />
+          <div className="flex h-full w-full items-center justify-center bg-zinc-900">
+            <CarFront
+              size={128}
+              strokeWidth={1.2}
+              className="text-zinc-700 transition duration-500 group-hover:scale-110 group-hover:text-zinc-600"
+            />
+          </div>
 
           {/* Gradient */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
