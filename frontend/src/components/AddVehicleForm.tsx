@@ -61,7 +61,7 @@ export default function AddVehicleForm({ onClose }: AddVehicleFormProps) {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-5 p-6">
+        <form onSubmit={handleSubmit} className="space-y-5 p-6 text-left">
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
               <label className="mb-2 block text-sm font-medium text-zinc-300">
