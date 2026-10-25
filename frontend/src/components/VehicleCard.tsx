@@ -1,4 +1,4 @@
-import { ArrowUpRight, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import { useState } from "react";
 import type { Vehicle } from "../types/vehicle";
 import { purchaseVehicle } from "../api/api";

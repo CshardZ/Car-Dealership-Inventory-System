@@ -1,14 +1,31 @@
 import { X } from "lucide-react";
+import { useState } from "react";
 
 interface EditVehicleFormProps {
   vehicleName: string;
   onClose: () => void;
+  onRestock: (quantity: number) => void;
 }
 
 export default function EditVehicleForm({
   vehicleName,
   onClose,
+  onRestock,
 }: EditVehicleFormProps) {
+  const [quantity, setQuantity] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const amount = Number(quantity);
+
+    if (amount < 1) {
+      return;
+    }
+
+    onRestock(amount);
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-6 backdrop-blur-sm">
       <div className="w-full max-w-md rounded-2xl border border-zinc-800 bg-zinc-950 shadow-2xl">
@@ -33,7 +50,7 @@ export default function EditVehicleForm({
         </div>
 
         {/* Form */}
-        <form className="space-y-5 p-6">
+        <form onSubmit={handleSubmit} className="space-y-5 p-6">
           <div>
             <label className="mb-2 block text-sm font-medium text-zinc-300">
               Additional Units
@@ -43,6 +60,8 @@ export default function EditVehicleForm({
               type="number"
               min="1"
               placeholder="Enter quantity"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
               className="h-11 w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 text-sm text-white outline-none placeholder:text-zinc-600 focus:border-zinc-600"
             />
           </div>

@@ -1,10 +1,42 @@
 import { X } from "lucide-react";
+import { useState } from "react";
+import { createVehicle } from "../api/api";
 
 interface AddVehicleFormProps {
   onClose: () => void;
 }
 
 export default function AddVehicleForm({ onClose }: AddVehicleFormProps) {
+  const [make, setMake] = useState("");
+  const [model, setModel] = useState("");
+  const [category, setCategory] = useState("");
+  const [price, setPrice] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      setSubmitting(true);
+
+      await createVehicle({
+        make,
+        model,
+        category,
+        price: Number(price),
+        quantity: Number(quantity),
+      });
+
+      onClose();
+    } catch (error) {
+      console.error("Failed to add vehicle:", error);
+      alert("Failed to add vehicle. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-6 backdrop-blur-sm">
       <div className="w-full max-w-lg rounded-2xl border border-zinc-800 bg-zinc-950 shadow-2xl">
@@ -29,7 +61,7 @@ export default function AddVehicleForm({ onClose }: AddVehicleFormProps) {
         </div>
 
         {/* Form */}
-        <form className="space-y-5 p-6">
+        <form onSubmit={handleSubmit} className="space-y-5 p-6">
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
               <label className="mb-2 block text-sm font-medium text-zinc-300">
@@ -39,6 +71,9 @@ export default function AddVehicleForm({ onClose }: AddVehicleFormProps) {
               <input
                 type="text"
                 placeholder="Toyota"
+                value={make}
+                onChange={(e) => setMake(e.target.value)}
+                required
                 className="h-11 w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 text-sm text-white outline-none placeholder:text-zinc-600 focus:border-zinc-600"
               />
             </div>
@@ -51,6 +86,9 @@ export default function AddVehicleForm({ onClose }: AddVehicleFormProps) {
               <input
                 type="text"
                 placeholder="Camry"
+                value={model}
+                onChange={(e) => setModel(e.target.value)}
+                required
                 className="h-11 w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 text-sm text-white outline-none placeholder:text-zinc-600 focus:border-zinc-600"
               />
             </div>
@@ -61,7 +99,12 @@ export default function AddVehicleForm({ onClose }: AddVehicleFormProps) {
               Category
             </label>
 
-            <select className="h-11 w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 text-sm text-zinc-400 outline-none focus:border-zinc-600">
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              required
+              className="h-11 w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 text-sm text-zinc-400 outline-none focus:border-zinc-600"
+            >
               <option value="">Select category</option>
               <option value="Sedan">Sedan</option>
               <option value="SUV">SUV</option>
@@ -79,6 +122,9 @@ export default function AddVehicleForm({ onClose }: AddVehicleFormProps) {
                 type="number"
                 min="0"
                 placeholder="2500000"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                required
                 className="h-11 w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 text-sm text-white outline-none placeholder:text-zinc-600 focus:border-zinc-600"
               />
             </div>
@@ -92,7 +138,10 @@ export default function AddVehicleForm({ onClose }: AddVehicleFormProps) {
                 type="number"
                 min="0"
                 placeholder="10"
-                className="h-11 w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 text-sm text-white outline-none placeholder:text-zinc-600 focus:border-zinc-600"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+                required
+                className="h-11 w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 text-sm text-white outline-none placeholder:text-zinc-600"
               />
             </div>
           </div>
@@ -102,16 +151,18 @@ export default function AddVehicleForm({ onClose }: AddVehicleFormProps) {
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg border border-zinc-800 px-4 py-2.5 text-sm font-medium text-zinc-400 transition hover:border-zinc-700 hover:text-white"
+              disabled={submitting}
+              className="rounded-lg border border-zinc-800 px-4 py-2.5 text-sm font-medium text-zinc-400 transition hover:border-zinc-700 hover:text-white disabled:opacity-50"
             >
               Cancel
             </button>
 
             <button
               type="submit"
-              className="rounded-lg bg-white px-4 py-2.5 text-sm font-semibold text-black transition hover:bg-zinc-200"
+              disabled={submitting}
+              className="rounded-lg bg-white px-4 py-2.5 text-sm font-semibold text-black transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              Add Vehicle
+              {submitting ? "Adding..." : "Add Vehicle"}
             </button>
           </div>
         </form>

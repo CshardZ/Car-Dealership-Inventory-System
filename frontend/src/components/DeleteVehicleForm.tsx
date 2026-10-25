@@ -3,11 +3,13 @@ import { AlertTriangle, X } from "lucide-react";
 interface DeleteVehicleFormProps {
   vehicleName: string;
   onClose: () => void;
+  onDelete: () => void;
 }
 
 export default function DeleteVehicleForm({
   vehicleName,
   onClose,
+  onDelete,
 }: DeleteVehicleFormProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-6 backdrop-blur-sm">
@@ -19,7 +21,9 @@ export default function DeleteVehicleForm({
             </div>
 
             <div>
-              <h2 className="font-semibold text-white">Delete Vehicle</h2>
+              <h2 className="font-semibold text-white">
+                Delete Vehicle
+              </h2>
 
               <p className="mt-1 text-sm text-zinc-500">
                 This action cannot be undone.
@@ -38,7 +42,10 @@ export default function DeleteVehicleForm({
         <div className="px-6 py-5">
           <p className="text-sm leading-6 text-zinc-400">
             Are you sure you want to delete{" "}
-            <span className="font-medium text-white">{vehicleName}</span>?
+            <span className="font-medium text-white">
+              {vehicleName}
+            </span>
+            ?
           </p>
         </div>
 
@@ -51,6 +58,7 @@ export default function DeleteVehicleForm({
           </button>
 
           <button
+            onClick={onDelete}
             className="rounded-lg bg-red-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-red-600"
           >
             Delete Vehicle

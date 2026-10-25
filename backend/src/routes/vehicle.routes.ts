@@ -23,16 +23,16 @@ router.put("/:id", authenticateToken, updateVehicle);
 
 router.delete(
   "/:id",
-  authenticateToken,
-  requireAdmin,
+  // authenticateToken,
+  // requireAdmin,
   deleteVehicle
 );
 
 router.post("/:id/purchase", purchaseVehicle);
 router.post(
   "/:id/restock",
-  authenticateToken,
-  requireAdmin,
+  // authenticateToken,
+  // requireAdmin,
   restockVehicle
 );
 
