@@ -86,17 +86,16 @@ export const createVehicle = async (vehicle: {
 };
 
 export const updateVehicle = async (
-  id: string | number,
+  id: string,
   vehicle: {
-    make?: string;
-    model?: string;
-    category?: string;
-    price?: number;
-    quantity?: number;
+    make: string;
+    model: string;
+    category: string;
+    price: number;
+    quantity: number;
   }
 ) => {
   const response = await api.put(`/vehicles/${id}`, vehicle);
-
   return response.data;
 };
 

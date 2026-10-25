@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PackagePlus, Plus, Trash2 } from "lucide-react";
+import { PackagePlus, Plus, Trash2, Pencil } from "lucide-react";
 import {
   getVehicles,
   restockVehicle,
@@ -8,8 +8,9 @@ import {
 import type { Vehicle } from "../types/vehicle";
 
 import AddVehicleForm from "../components/AddVehicleForm";
-import EditVehicleForm from "../components/EditVehicleForm";
+import RestockVehicleForm from "../components/RestockVehicleForm";
 import DeleteVehicleForm from "../components/DeleteVehicleForm";
+import EditVehicleForm from "../components/EditVehicleForm";
 
 export default function Admin() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
@@ -19,6 +20,7 @@ export default function Admin() {
   const [restockingVehicle, setRestockingVehicle] = useState<string | null>(
     null
   );
+  const [editingVehicle, setEditingVehicle] = useState<Vehicle | null>(null);
   const [deletingVehicle, setDeletingVehicle] = useState<string | null>(null);
 
   // =========================
@@ -186,6 +188,15 @@ export default function Admin() {
                           <PackagePlus size={14} />
                           <span>Restock</span>
                         </button>
+                        
+                        {/* Edit Vehicle */}
+                        <button
+                          title="Edit vehicle"
+                          onClick={() => setEditingVehicle(vehicle)}
+                          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-zinc-800 bg-zinc-900 text-zinc-400 transition hover:border-zinc-600 hover:bg-zinc-800 hover:text-white"
+                        >
+                          <Pencil size={14} />
+                        </button>
 
                         {/* Delete */}
                         <button
@@ -219,7 +230,7 @@ export default function Admin() {
 
       {/* Restock */}
       {restockingVehicle && (
-        <EditVehicleForm
+        <RestockVehicleForm
           vehicleName={
             vehicles.find(
               (vehicle) => vehicle._id === restockingVehicle
@@ -237,6 +248,15 @@ export default function Admin() {
           onRestock={(quantity) =>
             handleRestock(restockingVehicle, quantity)
           }
+        />
+      )}
+
+      {/* Edit Vehicle */}
+      {editingVehicle && (
+        <EditVehicleForm
+          vehicle={editingVehicle}
+          onClose={() => setEditingVehicle(null)}
+          onUpdated={fetchVehicles}
         />
       )}
 
