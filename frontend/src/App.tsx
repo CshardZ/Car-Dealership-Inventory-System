@@ -1,6 +1,4 @@
-import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import api from "./api/api";
 
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -10,27 +8,40 @@ import Register from "./pages/Register";
 import Admin from "./pages/Admin";
 
 function Home() {
+  const isLoggedIn = !!localStorage.getItem("token");
+
   return (
     <>
       <Navbar />
       <Hero />
-      <VehicleGrid />
+
+      {isLoggedIn ? (
+        <VehicleGrid />
+      ) : (
+        <section className="border-b border-zinc-800 bg-zinc-950 px-6 py-20">
+          <div className="mx-auto max-w-7xl text-center">
+            <h2 className="text-2xl font-bold text-white">
+              Login to view our inventory
+            </h2>
+
+            <p className="mt-3 text-sm text-zinc-500">
+              Please login to browse vehicles and make purchases.
+            </p>
+
+            <a
+              href="/login"
+              className="mt-6 inline-flex rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-zinc-200"
+            >
+              Login to continue
+            </a>
+          </div>
+        </section>
+      )}
     </>
   );
 }
 
 function App() {
-  // useEffect(() => {
-  //   api
-  //     .get("/health")
-  //     .then((response) => {
-  //       console.log("Backend:", response.data);
-  //     })
-  //     .catch((error) => { 
-  //       console.error("Backend connection failed:", error);
-  //     });
-  // }, []);
-
   return (
     <BrowserRouter>
       <Routes>

@@ -1,7 +1,50 @@
 import { Car, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { register } from "../api/api";
 
 export default function Register() {
+  const navigate = useNavigate();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      await register(
+        name,
+        email,
+        password,
+      );
+
+      alert("Account created successfully.");
+
+      navigate("/login");
+    } catch (error: any) {
+      console.error("Registration failed:", error);
+
+      const message =
+        error.response?.data?.message ||
+        "Failed to create account. Please try again.";
+
+      alert(message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <main className="flex min-h-screen items-center justify-center bg-zinc-950 px-6 py-12">
       <div className="w-full max-w-md">
@@ -24,7 +67,10 @@ export default function Register() {
         </div>
 
         {/* Form */}
-        <form className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 text-left">
+        <form
+          onSubmit={handleSubmit}
+          className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 text-left"
+        >
           <div className="grid gap-5">
             {/* Name */}
             <div className="space-y-2">
@@ -39,6 +85,9 @@ export default function Register() {
                 id="name"
                 type="text"
                 placeholder="Your name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
                 className="h-12 w-full rounded-lg border border-zinc-800 bg-zinc-950 px-4 text-sm text-white outline-none transition focus:border-zinc-600 placeholder:text-zinc-600"
               />
             </div>
@@ -56,6 +105,9 @@ export default function Register() {
                 id="email"
                 type="email"
                 placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
                 className="h-12 w-full rounded-lg border border-zinc-800 bg-zinc-950 px-4 text-sm text-white outline-none transition focus:border-zinc-600 placeholder:text-zinc-600"
               />
             </div>
@@ -73,6 +125,9 @@ export default function Register() {
                 id="password"
                 type="password"
                 placeholder="Create a password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
                 className="h-12 w-full rounded-lg border border-zinc-800 bg-zinc-950 px-4 text-sm text-white outline-none transition focus:border-zinc-600 placeholder:text-zinc-600"
               />
             </div>
@@ -90,6 +145,9 @@ export default function Register() {
                 id="confirm-password"
                 type="password"
                 placeholder="Confirm your password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
                 className="h-12 w-full rounded-lg border border-zinc-800 bg-zinc-950 px-4 text-sm text-white outline-none transition focus:border-zinc-600 placeholder:text-zinc-600"
               />
             </div>
@@ -97,10 +155,11 @@ export default function Register() {
 
           <button
             type="submit"
-            className="mt-6 flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-white text-sm font-semibold text-black transition hover:bg-zinc-200"
+            disabled={loading}
+            className="mt-6 flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-white text-sm font-semibold text-black transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            Create account
-            <ArrowRight size={17} />
+            {loading ? "Creating account..." : "Create account"}
+            {!loading && <ArrowRight size={17} />}
           </button>
         </form>
 

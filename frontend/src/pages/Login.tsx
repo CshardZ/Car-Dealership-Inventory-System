@@ -1,8 +1,37 @@
+import { useState } from "react";
 import { Car, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../api/api";
 
 export default function Login() {
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+      setError("");
+
+      await login(email, password);
+
+      navigate("/");
+    } catch (error: any) {
+      console.error("Login failed:", error);
+
+      setError(
+        error.response?.data?.message || "Invalid email or password."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <main className="flex min-h-screen items-center justify-center bg-zinc-950 px-6">
       <div className="w-full max-w-md">
@@ -25,7 +54,10 @@ export default function Login() {
         </div>
 
         {/* Form */}
-        <form className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 text-left">
+        <form
+          onSubmit={handleSubmit}
+          className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 text-left"
+        >
           <div className="space-y-5">
             {/* Email */}
             <div className="space-y-2">
@@ -39,7 +71,10 @@ export default function Login() {
               <input
                 id="email"
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
+                required
                 className="h-12 w-full rounded-lg border border-zinc-800 bg-zinc-950 px-4 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-zinc-600"
               />
             </div>
@@ -65,18 +100,29 @@ export default function Login() {
               <input
                 id="password"
                 type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
+                required
                 className="h-12 w-full rounded-lg border border-zinc-800 bg-zinc-950 px-4 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-zinc-600"
               />
             </div>
           </div>
 
+          {/* Error */}
+          {error && (
+            <p className="mt-4 text-sm text-red-400">
+              {error}
+            </p>
+          )}
+
           <button
             type="submit"
-            className="mt-6 flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-white text-sm font-semibold text-black transition hover:bg-zinc-200"
+            disabled={loading}
+            className="mt-6 flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-white text-sm font-semibold text-black transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            Sign in
-            <ArrowRight size={17} />
+            {loading ? "Signing in..." : "Sign in"}
+            {!loading && <ArrowRight size={17} />}
           </button>
         </form>
 
