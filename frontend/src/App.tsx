@@ -20,16 +20,16 @@ function Home() {
 }
 
 function App() {
-  useEffect(() => {
-    api
-      .get("/health")
-      .then((response) => {
-        console.log("Backend:", response.data);
-      })
-      .catch((error) => {
-        console.error("Backend connection failed:", error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   api
+  //     .get("/health")
+  //     .then((response) => {
+  //       console.log("Backend:", response.data);
+  //     })
+  //     .catch((error) => { 
+  //       console.error("Backend connection failed:", error);
+  //     });
+  // }, []);
 
   return (
     <BrowserRouter>

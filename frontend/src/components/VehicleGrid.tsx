@@ -1,9 +1,32 @@
+import { useEffect, useState } from "react";
 import { PackageOpen } from "lucide-react";
-import { vehicles } from "../data/vehicles";
 import SearchBar from "./SearchBar";
 import VehicleCard from "./VehicleCard";
+import { getVehicles } from "../api/api";
+import type { Vehicle } from "../types/vehicle";
 
 export default function VehicleGrid() {
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchVehicles = async () => {
+      try {
+        setLoading(true);
+        const data = await getVehicles();
+        setVehicles(data.vehicles ?? data);
+      } catch (err) {
+        console.error("Failed to fetch vehicles:", err);
+        setError("Failed to load vehicles.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchVehicles();
+  }, []);
+
   return (
     <section
       id="vehicles"
@@ -48,12 +71,28 @@ export default function VehicleGrid() {
           </p>
         </div>
 
+        {/* Loading */}
+        {loading && (
+          <p className="text-sm text-zinc-500">
+            Loading vehicles...
+          </p>
+        )}
+
+        {/* Error */}
+        {!loading && error && (
+          <p className="text-sm text-red-400">
+            {error}
+          </p>
+        )}
+
         {/* Vehicle Grid */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {vehicles.map((vehicle) => (
-            <VehicleCard key={vehicle.id} vehicle={vehicle} />
-          ))}
-        </div>
+        {!loading && !error && (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {vehicles.map((vehicle) => (
+              <VehicleCard key={vehicle._id} vehicle={vehicle} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

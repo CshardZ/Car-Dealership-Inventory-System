@@ -15,8 +15,8 @@ import { authenticateToken } from "../middlewares/auth.middleware";
 
 const router = Router();
 
-router.post("/", authenticateToken, createVehicle);
-router.get("/", authenticateToken, getVehicles);
+router.post("/", createVehicle);
+router.get("/", getVehicles);
 router.get("/search", authenticateToken, searchVehicles);
 
 router.put("/:id", authenticateToken, updateVehicle);
@@ -28,7 +28,7 @@ router.delete(
   deleteVehicle
 );
 
-router.post("/:id/purchase", authenticateToken, purchaseVehicle);
+router.post("/:id/purchase", purchaseVehicle);
 router.post(
   "/:id/restock",
   authenticateToken,
