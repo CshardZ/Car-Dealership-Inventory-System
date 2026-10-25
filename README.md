@@ -4,6 +4,8 @@ A full-stack Car Dealership Inventory System built with React, TypeScript, Node.
 
 The application provides vehicle inventory management, user authentication, vehicle search, purchasing, restocking, and admin-only inventory operations.
 
+Live Demo: https://car-dealership-inventory-system-c8g.vercel.app/
+
 ## Features
 
 ### User Features
