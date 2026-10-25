@@ -5,9 +5,13 @@ import cors from "cors";
 
 const app = express();
 
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin:
+      process.env.NODE_APP_ENVIRONMENT === "PRODUCTION"
+        ? process.env.NODE_CLIENT_PRODUCTION_URL
+        : process.env.NODE_CLIENT_DEVELOPMENT_URL,
   })
 );
 
